@@ -1,0 +1,24 @@
+# logs / cache
+*.log
+.cache/
+tmp/
+temp/
+
+# local secrets
+.env
+*.secret
+*.key
+id_rsa
+id_rsa.pub
+
+# system files
+.DS_Store
+Thumbs.db
+
+# Neovim temporary/session files
+Session.vim
+sessions/
+
+# lazy.nvim cache should not be backed up here
+lazy/
+mason/

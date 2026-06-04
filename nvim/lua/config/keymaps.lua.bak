@@ -1,0 +1,95 @@
+local map = vim.keymap.set
+
+map("n", "<C-s>", "<cmd>w<cr>", { desc = "保存" })
+map("i", "jj", "<Esc>", { desc = "退出插入模式" })
+
+map("n", "<leader>w", "<cmd>w<cr>", { desc = "保存" })
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "退出" })
+
+local function compileAndRunCpp()
+  local file = vim.fn.expand("%:p")
+  local out = vim.fn.expand("%:p:r")
+
+  if file == "" then
+    print("当前没有文件")
+    return
+  end
+
+  vim.cmd("write")
+
+  local cmd = "g++ -std=c++23 -O2 "
+    .. vim.fn.shellescape(file)
+    .. " -o "
+    .. vim.fn.shellescape(out)
+    .. " && "
+    .. vim.fn.shellescape(out)
+
+  vim.cmd("botright 12split")
+  vim.cmd("terminal " .. cmd)
+end
+
+map("n", "<F5>", compileAndRunCpp, { desc = "编译并运行 C++" })
+
+map("i", "<F5>", function()
+  vim.cmd("stopinsert")
+  compileAndRunCpp()
+end, { desc = "编译并运行 C++" })
+
+map("n", "<leader>rr", compileAndRunCpp, { desc = "编译并运行 C++" })
+
+map("n", "<leader>ff", function()
+  Snacks.picker.files({ hidden = false, ignored = false })
+end, { desc = "查找文件" })
+
+map("n", "<leader>fg", function()
+  Snacks.picker.grep()
+end, { desc = "全文搜索" })
+
+local function termcodes(keys)
+  return vim.api.nvim_replace_termcodes(keys, true, false, true)
+end
+
+map("i", "(", "()<Left>", { noremap = true, silent = true, desc = "补全小括号" })
+map("i", "[", "[]<Left>", { noremap = true, silent = true, desc = "补全中括号" })
+map("i", "{", "{}<Left>", { noremap = true, silent = true, desc = "补全大括号" })
+map("i", '"', '""<Left>', { noremap = true, silent = true, desc = "补全双引号" })
+map("i", "'", "''<Left>", { noremap = true, silent = true, desc = "补全单引号" })
+map("i", "【", "【】<Left>", { noremap = true, silent = true, desc = "补全中文方括号" })
+
+map("i", "<CR>", function()
+  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+
+  local before = line:sub(col, col)
+  local after = line:sub(col + 1, col + 1)
+
+  if before == "{" and after == "}" then
+    return termcodes("<CR><Esc>O")
+  end
+
+  return termcodes("<CR>")
+end, {
+  expr = true,
+  noremap = true,
+  silent = true,
+  desc = "回车",
+})
+
+map("n", "<leader>h", function()
+  Snacks.dashboard()
+end, { desc = "回到首页" })
+
+map("n", "<leader>a", function()
+  vim.cmd("normal! ggVG")
+  vim.cmd('normal! "+y')
+  print("已全选并复制到系统剪贴板")
+end, {
+  noremap = true,
+  silent = true,
+  desc = "全选并复制",
+})
+
+map("n", "<leader>rn", function()
+  vim.lsp.buf.rename()
+end, { desc = "变量重命名" })
+
