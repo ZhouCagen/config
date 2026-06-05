@@ -18,6 +18,8 @@ gtk2
 gtk2-debug
 html2markdown
 html2markdown-debug
+httpdirfs
+httpdirfs-debug
 illogical-impulse-audio
 illogical-impulse-backlight
 illogical-impulse-basic
@@ -51,11 +53,15 @@ ttf-material-symbols-variable-git
 ttf-readex-pro
 ttf-rubik-vf
 ttf-twemoji
+ttf-wps-fonts
 walker
 walker-debug
 wechat
 wechat-bin
 wlogout
 wlogout-debug
+wps-office
+wps-office-debug
+wps-office-mui-zh-cn
 yay
 yay-debug
