@@ -6,50 +6,24 @@ exec = hyprctl dispatch submap global
 # This is required for catchall to work
 submap = global
 
+#!
 ##! Shell
-# End-4 / quickshell 搜索栏修复说明：
-# 现在 quickshell 的 searchToggle 可以正常打开搜索栏；
-# 但是不能直接把 Super 绑定到 searchToggle，
-# 否则 Win+2 / Win+其他按键时也会弹搜索栏。
-#
-# 这里改成：
-# 1. 按下 Win：先标记“可能是单独按 Win”
-# 2. Win + 其他键 / 鼠标操作：取消这个标记
-# 3. 松开 Win：如果标记还在，才打开 End-4 默认搜索栏
-#
-# 依赖脚本：
-# ~/.Scripts/end4-search-toggle.fish
-
-# 单独按 Win：按下时只做标记
-bindid = Super, Super_L, Toggle search mark, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish press
-bindid = Super, Super_R, Toggle search mark, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish press
-
-# 单独按 Win：松开时才打开 End-4 搜索栏
-bindrid = Super, Super_L, Toggle search, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish release
-bindrid = Super, Super_R, Toggle search, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish release
-# 不再使用旧的 quickshell:searchToggleRelease，
-# 因为新版 quickshell 里它不能正常弹出搜索栏。
-# 也不再使用 fuzzel fallback，避免 Win 键打开错误搜索栏。
-# bindid = Super, Super_L, Toggle search, global, quickshell:searchToggleRelease # Toggle search
-# bindid = Super, Super_R, Toggle search, global, quickshell:searchToggleRelease # [hidden] Toggle search
-# bind = Super, Super_L, exec, qs -c $qsConfig ipc call TEST_ALIVE || pkill fuzzel || fuzzel # [hidden] Launcher (fallback)
-# bind = Super, Super_R, exec, qs -c $qsConfig ipc call TEST_ALIVE || pkill fuzzel || fuzzel # [hidden] Launcher (fallback)
-
-# 只要按住 Win 又按了其他键，就取消“单独 Win”的标记
-# 这样 Win+2 / Win+Tab / Win+Q 等组合键不会弹出搜索栏
-binditn = Super, catchall, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Ctrl, Super_L, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Ctrl, Super_R, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-
-# 按住 Win 使用鼠标时，也取消“单独 Win”的标记
-bind = Super, mouse:272, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse:273, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse:274, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse:275, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse:276, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse:277, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse_up, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
-bind = Super, mouse_down, exec, /home/zhoukaijun/.Scripts/end4-search-toggle.fish interrupt # [hidden]
+# These absolutely need to be on top, or they won't work consistently
+bindid = Super, Super_L, Toggle search, global, quickshell:searchToggleRelease # Toggle search
+bindid = Super, Super_R, Toggle search, global, quickshell:searchToggleRelease # [hidden] Toggle search
+bind = Super, Super_L, exec, qs -c $qsConfig ipc call TEST_ALIVE || pkill fuzzel || fuzzel # [hidden] Launcher (fallback)
+bind = Super, Super_R, exec, qs -c $qsConfig ipc call TEST_ALIVE || pkill fuzzel || fuzzel # [hidden] Launcher (fallback)
+binditn = Super, catchall, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Ctrl, Super_L, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Ctrl, Super_R, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:272, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:273, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:274, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:275, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:276, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse:277, global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse_up,  global, quickshell:searchToggleReleaseInterrupt # [hidden]
+bind = Super, mouse_down,global, quickshell:searchToggleReleaseInterrupt # [hidden]
 
 bindit = ,Super_L, global, quickshell:workspaceNumber # [hidden]
 bindit = ,Super_R, global, quickshell:workspaceNumber # [hidden]
@@ -69,6 +43,22 @@ bindd = Ctrl+Alt, Delete, Toggle session menu, global, quickshell:sessionToggle 
 bindd = Super, J, Toggle bar, global, quickshell:barToggle # Toggle bar
 bind = Ctrl+Alt, Delete, exec, qs -c $qsConfig ipc call TEST_ALIVE || pkill wlogout || wlogout -p layer-shell # [hidden] Session menu (fallback)
 bind = Shift+Super+Alt, Slash, exec, qs -p ~/.config/quickshell/$qsConfig/welcome.qml # [hidden] Launch welcome app
+
+bindle=, XF86MonBrightnessUp, exec, qs -c $qsConfig ipc call brightness increment || brightnessctl s 5%+ # [hidden]
+bindle=, XF86MonBrightnessDown, exec, qs -c $qsConfig ipc call brightness decrement || brightnessctl s 5%- # [hidden]
+bindle=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.5# [hidden]
+bindle=, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- # [hidden]
+
+bindl = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle # [hidden]
+bindld = Super+Shift,M, Toggle mute, exec, wpctl set-mute @DEFAULT_SINK@ toggle # [hidden]
+bindl = Alt ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle # [hidden]
+bindl = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle # [hidden]
+bindld = Super+Alt,M, Toggle mic, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle # [hidden]
+bindd = Ctrl+Super, T, Toggle wallpaper selector, global, quickshell:wallpaperSelectorToggle # Wallpaper selector
+bindd = Ctrl+Super+Alt, T, Select random wallpaper, global, quickshell:wallpaperSelectorRandom # Random wallpaper
+bindd = Ctrl+Super, T, Change wallpaper, exec, qs -c $qsConfig ipc call TEST_ALIVE || ~/.config/quickshell/$qsConfig/scripts/colors/switchwall.sh # [hidden] Change wallpaper (fallback)
+bind = Ctrl+Super, R, exec, killall ydotool qs quickshell; qs -c $qsConfig & # Restart widgets
+bind = Ctrl+Super, P, global, quickshell:panelFamilyCycle # Cycle panel family
 
 ##! Utilities
 # Screenshot, Record, OCR, Color picker, Clipboard history

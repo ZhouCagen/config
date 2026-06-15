@@ -130,3 +130,13 @@ map("n", "<leader>/", function()
 end, opts("搜索快捷键"))
 
 require("config.keymapsZh")
+
+-- Ctrl+V 粘贴系统剪贴板
+vim.keymap.set("n", "<C-v>", '"+p', { desc = "从系统剪贴板粘贴" })
+vim.keymap.set("i", "<C-v>", "<C-r>+", { desc = "从系统剪贴板粘贴" })
+vim.keymap.set("v", "<C-v>", '"+p', { desc = "从系统剪贴板粘贴" })
+
+-- Ctrl+Z 撤销
+vim.keymap.set("n", "<C-z>", "u", { desc = "撤销" })
+vim.keymap.set("i", "<C-z>", "<C-o>u", { desc = "撤销" })
+vim.keymap.set("v", "<C-z>", "<Esc>u", { desc = "撤销" })

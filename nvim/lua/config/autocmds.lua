@@ -24,3 +24,56 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = false
   end,
 })
+
+-- 自动记录当前项目根目录
+local group = vim.api.nvim_create_augroup("AutoProjectCwd", {
+    clear = true,
+})
+
+local function detect_root(file)
+    if file == nil or file == "" then
+        return nil
+    end
+
+    if vim.fn.isdirectory(file) == 1 then
+        return file
+    end
+
+    return vim.fs.root(file, {
+        ".git",
+        "CMakeLists.txt",
+        "compile_commands.json",
+        "Makefile",
+        "xmake.lua",
+    }) or vim.fn.fnamemodify(file, ":h")
+end
+
+local function set_project_root(root)
+    if root == nil or root == "" then
+        return
+    end
+
+    root = vim.fs.normalize(root)
+
+    vim.g.project_root = root
+    vim.cmd.cd(vim.fn.fnameescape(root))
+
+    local uv = vim.uv or vim.loop
+    pcall(uv.chdir, root)
+end
+
+vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
+    group = group,
+    callback = function(args)
+        if vim.bo[args.buf].buftype ~= "" then
+            return
+        end
+
+        local file = vim.api.nvim_buf_get_name(args.buf)
+        local root = detect_root(file)
+
+        if root then
+            set_project_root(root)
+        end
+    end,
+})
