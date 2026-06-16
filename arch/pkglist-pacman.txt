@@ -137,3 +137,4 @@ xsettingsd
 yay
 zathura
 zathura-pdf-mupdf
+zip
