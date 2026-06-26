@@ -1,11 +1,14 @@
 alacritty
 alsa-utils
 aria2
+aspnet-runtime
 awww
 base
 base-devel
 benchmark
 bibata-cursor-theme-bin
+blueman
+bluez-utils
 btop
 btrfs-progs
 ccache
@@ -16,6 +19,8 @@ cowsay
 deepin-wine10-stable
 deepin-wine10-stable-debug
 dnsmasq
+docker
+dotnet-sdk
 edk2-ovmf
 efibootmgr
 elephant
@@ -52,6 +57,7 @@ illogical-impulse-toolkit
 illogical-impulse-widgets
 intel-media-driver
 intel-ucode
+iwd
 kanshi
 lazygit
 less
@@ -73,6 +79,7 @@ nano
 neovim
 nethack
 network-manager-applet
+nlohmann-json
 nodejs
 noto-fonts-cjk
 noto-fonts-emoji
@@ -116,6 +123,7 @@ tree
 tree-sitter-cli
 ttf-wps-fonts
 udiskie
+unarchiver
 unrar
 unzip
 vim
@@ -124,6 +132,7 @@ virt-viewer
 vulkan-intel
 walker
 waybar
+webkit2gtk-4.1
 wechat
 wine
 wofi
