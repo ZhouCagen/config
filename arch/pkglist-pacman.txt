@@ -17,7 +17,6 @@ code
 com.qq.weixin.work.deepin
 cowsay
 deepin-wine10-stable
-deepin-wine10-stable-debug
 dnsmasq
 docker
 dotnet-sdk
@@ -94,10 +93,12 @@ pipewire-alsa
 plasma-browser-integration
 power-profiles-daemon
 python-pip
+python-pipx
 qemu-full
 qqmusic-bin
+qt6-wayland
 qt6ct
-quickshell-git
+quickshell
 reflector
 rime-ice-git
 rofi
@@ -137,7 +138,6 @@ wechat
 wine
 wofi
 wps-office-cn
-wps-office-cn-debug
 wps-office-mime-cn
 wps-office-mui-zh-cn
 xorg-xdpyinfo
