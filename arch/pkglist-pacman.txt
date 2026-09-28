@@ -58,6 +58,7 @@ intel-media-driver
 intel-ucode
 iwd
 kanshi
+kid3
 lazygit
 less
 libreoffice-fresh-zh-cn
